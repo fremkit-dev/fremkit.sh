@@ -1,0 +1,70 @@
+name: sync-install-sh
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      force_pr:
+        description: Open a proof-of-wiring PR even if install.sh did not change
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out target repo
+        uses: actions/checkout@v4
+
+      - name: Sync published installer
+        run: |
+          set -eu
+
+          latest_tag="$(
+            git ls-remote --refs --tags https://github.com/fremkit-dev/fremkit.git 'v*' \
+              | awk '{sub("refs/tags/", "", $2); print $2}' \
+              | sort -V \
+              | tail -n1
+          )"
+
+          if [ -n "$latest_tag" ]; then
+            echo "Syncing install.sh from tag $latest_tag"
+            curl -fsSL \
+              "https://raw.githubusercontent.com/fremkit-dev/fremkit/${latest_tag}/install.sh" \
+              -o /tmp/source-install.sh
+
+            {
+              IFS= read -r first_line
+              printf '%s\n' "$first_line"
+              printf '# Published copy; source of truth: fremkit-dev/fremkit:install.sh\n'
+              cat
+            } < /tmp/source-install.sh > install.sh
+
+            chmod 0755 install.sh
+          else
+            echo "No public fremkit tag found yet; leaving install.sh unchanged."
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.force_pr }}" = "true" ]; then
+            mkdir -p .github/sync-runs
+            date -u '+%Y-%m-%dT%H:%M:%SZ' > .github/sync-runs/last-force-pr.txt
+          fi
+
+      - name: Open pull request when repo content changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/sync-install-sh
+          delete-branch: true
+          commit-message: "chore: sync install.sh publication"
+          title: "chore: sync install.sh publication"
+          body: |
+            Syncs the published `install.sh` copy from the latest tagged release in `fremkit-dev/fremkit`.
+
+            Trigger: `${{ github.event_name }}`
+            Force PR: `${{ github.event.inputs.force_pr || 'false' }}`
