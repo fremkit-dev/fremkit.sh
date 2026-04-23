@@ -3,23 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>fremkit.sh</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>fremkit.sh — Coming soon</title>
     <meta
       name="description"
-      content="Canonical install endpoint for frem, the devcontainer CLI from Fremkit."
+      content="The Fremkit installer endpoint. Not yet generally available."
     >
     <style>
       :root {
         --desert-sand: #e8c872;
         --spice-orange: #d4763b;
-        --deep-rock: #2a1f1a;
         --night-sky: #0f1923;
         --paper: #f7f0dc;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
       body {
         margin: 0;
@@ -30,170 +28,47 @@
           radial-gradient(circle at bottom right, rgba(212, 118, 59, 0.22), transparent 24%),
           linear-gradient(160deg, var(--night-sky), #172635 62%, #243544);
         color: var(--paper);
+        display: grid;
+        place-items: center;
       }
 
       main {
-        max-width: 860px;
-        margin: 0 auto;
-        padding: 72px 24px 56px;
-      }
-
-      .frame {
-        border: 1px solid rgba(232, 200, 114, 0.24);
-        border-radius: 28px;
-        padding: 32px;
-        background: rgba(15, 25, 35, 0.72);
-        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
-        backdrop-filter: blur(12px);
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin: 0 0 18px;
-        font-size: 0.88rem;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--desert-sand);
-      }
-
-      .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        background: var(--spice-orange);
-        box-shadow: 0 0 18px rgba(212, 118, 59, 0.72);
+        max-width: 540px;
+        padding: 48px 24px;
+        text-align: center;
       }
 
       h1 {
-        margin: 0;
-        font-size: clamp(2.5rem, 8vw, 5.2rem);
-        line-height: 0.94;
-        letter-spacing: -0.06em;
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 6vw, 3rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
         color: #fff7e0;
       }
 
       p {
-        margin: 18px 0 0;
-        max-width: 42rem;
-        font-size: 1.08rem;
-        line-height: 1.65;
+        margin: 0 0 20px;
+        font-size: 1.05rem;
+        line-height: 1.6;
         color: rgba(247, 240, 220, 0.88);
       }
 
-      .install-card {
-        margin-top: 28px;
-        padding: 22px;
-        border-radius: 20px;
-        background: linear-gradient(180deg, rgba(232, 200, 114, 0.08), rgba(42, 31, 26, 0.5));
-        border: 1px solid rgba(232, 200, 114, 0.2);
-      }
-
-      code {
-        font-family: "IBM Plex Mono", "SFMono-Regular", "SF Mono", monospace;
-      }
-
-      pre {
-        margin: 14px 0 0;
-        padding: 18px 20px;
-        overflow-x: auto;
-        border-radius: 16px;
-        background: rgba(11, 18, 26, 0.9);
-        border: 1px solid rgba(232, 200, 114, 0.16);
-        color: #fff7e0;
-        font-size: 0.98rem;
-      }
-
-      .meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        align-items: center;
-        margin-top: 22px;
-      }
-
-      .meta a {
-        color: #fff7e0;
+      a {
+        color: var(--desert-sand);
         text-decoration: none;
         border-bottom: 1px solid rgba(232, 200, 114, 0.4);
       }
 
-      .meta a:hover {
+      a:hover {
         border-bottom-color: var(--spice-orange);
-      }
-
-      .note {
-        margin-top: 20px;
-        font-size: 0.95rem;
-        color: rgba(247, 240, 220, 0.72);
-      }
-
-      .badge {
-        display: inline-flex;
-      }
-
-      .badge img {
-        height: 28px;
-      }
-
-      @media (max-width: 640px) {
-        main {
-          padding: 32px 16px 24px;
-        }
-
-        .frame {
-          padding: 24px;
-          border-radius: 22px;
-        }
-
-        pre {
-          padding: 16px;
-        }
       }
     </style>
   </head>
   <body>
     <main>
-      <section class="frame">
-        <div class="eyebrow">
-          <span class="dot" aria-hidden="true"></span>
-          Canonical install channel
-        </div>
-        <h1>frem from one line.</h1>
-        <p>
-          Your repo becomes a working dev environment. <code>fremkit.sh</code>
-          is the curl-friendly public entrypoint for installing
-          <code>frem</code>, and Fremkit reads your repo, writes a portable
-          <code>devcontainer.json</code>, and returns a workspace you can open
-          in the browser, terminal, or an agent.
-        </p>
-        <p>
-          The root path is reserved for the installer script, so this landing
-          page lives at <code>/index.html</code>.
-        </p>
-
-        <div class="install-card">
-          <div class="badge">
-            <img
-              src="https://img.shields.io/github/v/release/fremkit-dev/fremkit?display_name=tag&label=current%20release&color=D4763B"
-              alt="Current frem release badge"
-            >
-          </div>
-          <pre><code>curl -sSL https://fremkit.sh | sh</code></pre>
-          <div class="meta">
-            <a href="https://fremkit.dev">Visit fremkit.dev</a>
-            <a href="https://github.com/fremkit-dev/fremkit">Source repo</a>
-            <a href="/install.sh">View installer</a>
-          </div>
-        </div>
-
-        <p class="note">
-          Source of truth for <code>install.sh</code> lives in
-          <code>fremkit-dev/fremkit</code> and is mirrored here for publication
-          via Cloudflare Pages.
-        </p>
-      </section>
+      <h1>fremkit.sh</h1>
+      <p>The Fremkit installer is not yet generally available.</p>
+      <p>Visit <a href="https://fremkit.dev">fremkit.dev</a> for updates.</p>
     </main>
   </body>
 </html>
